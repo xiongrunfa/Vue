@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <h3>明星列表</h3>
+            <li v-for="item in stars">{{item}}</li>
+            <h3>学生列表</h3>
+            <li v-for="item,key in students">
+                <h4>{{key}}-----学生姓名：{{item.name}}</h4>
+                <p>年龄：{{item.age}}-----学校：{{item.school}}</p>
+            </li>
+            <h3>循环对象</h3>
+            <li v-for="item in students[0]">{{item}}</li>
+            <img :src="students[0].imgHead">
+            <h3>条件+循环渲染(选出年龄偶数的学生)</h3>
+            <li v-for="item,index in students" v-if="item.age%2==0">
+                <h4>{{index}}-----学生姓名：{{item.name}}</h4>
+                <p>年龄：{{item.age}}-----学校：{{item.school}}</p>
+            </li>
+        </ul>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                stars: ["蔡徐坤", "鹿晗", "范冰冰", "杨超越"],
+                students: [{
+                    name: "小强",
+                    age: 18,
+                    school: "清华",
+                    imgHead: "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1709644436,2739756540&fm=26&gp=0.jpg"
+                }, {
+                    name: "小明",
+                    age: 17,
+                    school: "北大"
+                }, {
+                    name: "小亮",
+                    age: 20,
+                    school: "南大"
+                }]
+            }
+        })
+    </script>
+</body>
+
+</html>
