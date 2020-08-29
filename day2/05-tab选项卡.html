@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .tab {
+            padding: 0;
+            width: 400px;
+            height: 300px;
+        }
+
+        .tab ul {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .tab li {
+            float: left;
+            width: 100px;
+            height: 50px;
+            list-style: none;
+            text-align: center;
+            line-height: 50px;
+            border: 1px solid greenyellow;
+        }
+
+        .tab li:nth-child(2) {
+            border-left: none;
+            border-right: none;
+        }
+
+        .tab li.active {
+            background-color: palegreen;
+        }
+
+        .tab div {
+            width: 400px;
+            height: 250px;
+            display: none;
+            border: 2px solid olivedrab;
+        }
+
+        .tab div.current {
+            display: block;
+        }
+
+        .tab div img {
+            width: 100%;
+            height: 100%;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tab">
+        <ul>
+            <li :class="currentIndex==index? 'active' : ''" v-for="(item,index) in fruits" @click="handle(index)"
+                v-cloak>{{item.name}}</li>
+        </ul>
+        <div :class="currentIndex==index? 'current' : ''" v-for="(item,index) in fruits"><img :src="item.path" alt="">
+        </div>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: ".tab",
+            data: {
+                currentIndex: 0,
+                fruits: [{
+                    name: "苹果",
+                    path: "img/苹果.jpg"
+                }, {
+                    name: "香蕉",
+                    path: "img/香蕉.jpg"
+                }, {
+                    name: "橘子",
+                    path: "img/橘子.jpg"
+                }]
+            },
+            methods: {
+                handle: function (index) {
+                    this.currentIndex = index
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

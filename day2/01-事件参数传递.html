@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <button v-on:click="handle1">点击1</button>
+        <button v-on:click="handle2(11,19,$event)">点击2</button>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        /* 事件绑定-参数传递
+            1.如果时间直接绑定函数名称，那么默认会传递事件对象作为事件函数的第一个参数 
+            2.如果事件绑定函数调用，那么事件对象必须作为最后一个参数显示传递，并且事件对象的名称必须是$event*/
+        var app = new Vue({
+            el: "#app",
+            methods: {
+                handle1: function (e) {
+                    console.log(e.target.innerHTML);
+                },
+                handle2: function (n1, n2, event) {
+                    console.log(n1 + n2);
+                    console.log(event.target.innerHTML);
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>

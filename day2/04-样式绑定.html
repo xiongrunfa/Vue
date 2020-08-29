@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .active {
+            width: 100px;
+            height: 100px;
+            border: 1px solid red;
+        }
+
+        .error {
+            background-color: greenyellow;
+        }
+
+        .test {
+            color: orange;
+        }
+
+        .classTest {
+            overflow: hidden;
+        }
+
+        .classTest div {
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p>class样式测试</p>
+        <div class="classTest">
+            <div :class="{active: isActive,error: isError}">测试样式1</div>
+            <div :class="[activeClass,errorClass]">测试样式2</div>
+            <div :class="[activeClass,errorClass,{test: istTest}]">测试样式3</div>
+            <div :class="objClass">测试样式4</div>
+            <div :class="arrClass">测试样式5</div>
+            <button @click="handle">切换</button>
+        </div>
+        <p>style样式测试</p>
+        <div class="classTest">
+            <div :style="{border:borderStyle,width:widthStyle,height:heightStyle}"></div>
+            <div :style="objStyle"></div>
+            <div :style="[objStyle,overrideStyle]"></div>
+        </div>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                activeClass: "active",
+                errorClass: "error",
+                borderStyle: "1px solid pink",
+                widthStyle: "100px",
+                heightStyle: "200px",
+                isActive: true,
+                isError: true,
+                istTest: true,
+                objClass: { active: true, error: true },
+                arrClass: ["active", "error"],
+                objStyle: { border: "1px solid pink", width: "100px", height: "200px" },
+                overrideStyle: { border: "5px solid red", width: "100px", height: "200px", backgroundColor: "green" }
+            },
+            methods: {
+                handle: function () {
+                    this.isActive = !this.isActive
+                    this.isError = !this.isError
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
