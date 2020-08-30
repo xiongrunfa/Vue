@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .grid {
+            margin: 0 auto;
+            width: 500px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th,
+        table td {
+            height: 35px;
+            line-height: 35px;
+        }
+
+        table thead,
+        .book {
+            background-color: #f5dba9;
+        }
+
+        table td {
+            padding: 10px;
+            border: 1px dashed #f5dba9;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="grid">
+            <div>
+                <h1>图书管理</h1>
+                <div class="book">
+                    <div>
+                        <label for="id">
+                            编号：
+                        </label>
+                        <input type="text" id="id" v-model="id" :disabled="flag" v-focus>
+                        <label for="name">
+                            名称：
+                        </label>
+                        <input type="text" id="name" v-model="name">
+                        <button @click="handle" :disabled="submitFlag">提交</button>
+                    </div>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <th>编号</th>
+                    <th>名称</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </thead>
+                <tbody>
+                    <tr v-for="item in books" v-cloak>
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.date | dateFormat}}</td>
+                        <td>
+                            <a href="" @click.prevent="toEdit(item.id)">修改</a>
+                            <span>|</span>
+                            <a href="" @click.prevent="deleteBook(item.id)">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script>
+        Vue.directive('focus', {
+            inserted: function (el) {
+                //    el表示指令所绑定的元素
+                el.focus();
+            }
+        })
+        Vue.filter('dateFormat', (dataStr) => {
+            var time = new Date(dataStr);
+            function timeAdd0(str) {
+                if (str < 10) {
+                    str = '0' + str;
+                }
+                return str
+            }
+            var y = time.getFullYear();
+            var m = time.getMonth() + 1;
+            var d = time.getDate();
+            var h = time.getHours();
+            var mm = time.getMinutes();
+            var s = time.getSeconds();
+            return y + '-' + timeAdd0(m) + '-' + timeAdd0(d) + ' ' + timeAdd0(h) + ':' + timeAdd0(mm) + ':' + timeAdd0(s);
+        })
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                id: "",
+                name: "",
+                flag: false,
+                submitFlag: false,
+                books: [{
+                    id: 1,
+                    name: "三国演义",
+                    date: 1598799642568
+                }, {
+                    id: 2,
+                    name: "水浒传",
+                    date: 1598799642568
+                }, {
+                    id: 3,
+                    name: "红楼梦",
+                    date: 1598799642568
+                }, {
+                    id: 4,
+                    name: "西游记",
+                    date: 1598799642568
+                }]
+            },
+            methods: {
+                handle: function () {
+                    if (this.id && this.name) {
+                        if (this.flag) {
+                            // 编辑操作
+                            this.books.some((item) => {
+                                if (item.id == this.id) {
+                                    item.name = this.name
+                                    return true
+                                }
+                            })
+                            this.flag = false
+                        } else {
+                            // 添加图书
+                            var book = {}
+                            book.id = this.id
+                            book.name = this.name
+                            book.date = 1598799642568
+                            this.books.push(book)
+                        }
+                        this.id = ""
+                        this.name = ""
+                    }
+                },
+                toEdit: function (id) {
+                    // 禁止修改图书的id
+                    this.flag = true
+                    // 把要修改图书的信息填充到表单中
+                    var book = this.books.filter(function (item) {
+                        return item.id == id
+                    })
+                    // console.log(book);
+                    this.id = book[0].id
+                    this.name = book[0].name
+                },
+                deleteBook: function (id) {
+                    // 根据id删除图书
+                    // 用id查询出要删除图书信息的索引
+                    /* var index = this.books.findIndex(function (item) {
+                        return item.id == id
+                    }) */
+                    // 根据索引删除信息
+                    // this.books.splice(index, 1)
+                    // ----------------------------
+                    // 第二种办法
+                    this.books = this.books.filter(function (item) {
+                        return item.id != id
+                    })
+                }
+            },
+            watch: {
+                name: function (val) {
+                    var ret = this.books.some(function (item) {
+                        return item.name === val
+                    })
+                    if (ret) {
+                        this.submitFlag = true
+                    } else {
+                        this.submitFlag = false
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
