@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>前后端交互</div>
+
+    <script>
+        function queryData(url) {
+            return new Promise(function (resolve, reject) {
+                var xhr = new XMLHttpRequest()
+                xhr.open('get', url)
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState != 4) return;
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        resolve(xhr.responseText)
+                    } else {
+                        reject('服务器错误')
+                    }
+                }
+                xhr.send(null)
+            })
+        }
+        queryData('http://localhost:3000/data')
+            .then(function (data) {
+                console.log(data);
+                return queryData('http://localhost:3000/data1')
+            }, function (info) {
+                console.log(info);
+            })
+            .then(function (data) {
+                console.log(data);
+                return queryData('http://localhost:3000/data2')
+            }, function (info) {
+                console.log(info);
+            })
+            .then(function (data) {
+                console.log(data);
+            }, function (info) {
+                console.log(info);
+            })
+    </script>
+</body>
+
+</html>

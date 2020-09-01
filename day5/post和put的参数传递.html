@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        /* fetch('http://localhost:3000/books', {
+            method: 'post',
+            body: 'uname=zhangsan&psw=123',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function (data) {
+            return data.text()
+        }
+        ).then(function (ret) {
+            console.log(ret);
+        }) */
+        fetch('http://localhost:3000/books', {
+            method: 'post',
+            body: JSON.stringify({
+                uname: '张三',
+                psw: '123'
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function (data) {
+            return data.text()
+        }
+        ).then(function (ret) {
+            console.log(ret);
+        })
+
+        fetch('http://localhost:3000/books/123', {
+            method: 'put',
+            body: JSON.stringify({
+                uname: '张三',
+                psw: '123'
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function (data) {
+            return data.text()
+        }
+        ).then(function (ret) {
+            console.log(ret);
+        })
+    </script>
+</body>
+
+</html>
